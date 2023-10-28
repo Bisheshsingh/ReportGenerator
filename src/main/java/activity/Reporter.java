@@ -13,9 +13,9 @@ public final class Reporter {
     private static final String DEFAULT_FORMAT = "[{D}/{MO}/{Y}]-[{H}:{M}:{S}]-[{TH}]-[{LT}]-[{RN}] : {LP}";
 
     private final Map<String, Reporter> childReporters;
-    private final String reporterName;
-    private final Boolean showLogsInSTDOut;
-    private final Boolean storeLogs;
+    private String reporterName;
+    private Boolean showLogsInSTDOut;
+    private Boolean storeLogs;
     private final List<String> logs;
     private final LogFormatter formatter;
 
@@ -61,8 +61,11 @@ public final class Reporter {
             return childReporters.get(reporterName);
         }
 
-        return childReporters.put(reporterName,
-                new Reporter(reporterName, showLogsInSTDOut, storeLogs, formatter.getFormat()));
+        final Reporter reporter = new Reporter(reporterName, showLogsInSTDOut, storeLogs, formatter.getFormat());
+
+        childReporters.put(reporterName, reporter);
+
+        return reporter;
     }
 
     public Collection<Reporter> getAllChildren() {
@@ -130,6 +133,12 @@ public final class Reporter {
 
         if (storeLogs) {
             logs.add(formattedLog);
+        }
+    }
+
+    public void setFormat(final String format) {
+        if(format == null) {
+            formatter.setFormat(format);
         }
     }
 }

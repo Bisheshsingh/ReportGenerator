@@ -27,7 +27,7 @@ public final class LogFormatter {
         log = format.replace(logParam, log);
         log = log.replace(reporterName, reporter);
         log = log.replace(logType, type.name());
-        log = log.replace(threadId, "THREAD-" + Thread.currentThread().getId());
+        log = log.replace(threadId, String.valueOf(Thread.currentThread().getName()));
         log = log.replace(hours, String.valueOf(dateTime.getHour()));
         log = log.replace(minutes, String.valueOf(dateTime.getMinute()));
         log = log.replace(seconds, String.valueOf(dateTime.getSecond()));
